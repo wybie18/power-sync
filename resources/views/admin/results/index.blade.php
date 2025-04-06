@@ -37,44 +37,50 @@
             </div>
         </div>
 
-        <!-- Hero Count Card -->
+        <!-- Air Element Card -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 mr-4">
                     <svg class="w-6 h-6 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm">Heroes</p>
-                    <p class="text-2xl font-bold text-gray-800 dark:text-white">{{ $heroCount }} ({{ $heroPercentage }}%)</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">Air & Water</p>
+                    <p class="text-2xl font-bold text-gray-800 dark:text-white">
+                        <span class="text-blue-600 dark:text-blue-400">{{ $airCount }}</span> / 
+                        <span class="text-cyan-600 dark:text-cyan-400">{{ $waterCount }}</span>
+                    </p>
                 </div>
             </div>
         </div>
 
-        <!-- Villain Count Card -->
+        <!-- Fire Element Card -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-red-100 dark:bg-red-900 mr-4">
                     <svg class="w-6 h-6 text-red-600 dark:text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"></path>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm">Villains</p>
-                    <p class="text-2xl font-bold text-gray-800 dark:text-white">{{ $villainCount }} ({{ $villainPercentage }}%)</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">Fire & Earth</p>
+                    <p class="text-2xl font-bold text-gray-800 dark:text-white">
+                        <span class="text-red-600 dark:text-red-400">{{ $fireCount }}</span> / 
+                        <span class="text-green-600 dark:text-green-400">{{ $earthCount }}</span>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <!-- Alignment Distribution Chart -->
+        <!-- Element Distribution Chart -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Alignment Distribution</h2>
+            <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Element Distribution</h2>
             <div class="h-64">
-                <canvas id="alignmentChart"></canvas>
+                <canvas id="elementChart"></canvas>
             </div>
         </div>
 
@@ -100,11 +106,13 @@
                     </select>
                 </div>
                 <div class="flex-1">
-                    <label for="alignment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Alignment</label>
-                    <select name="alignment" id="alignment" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                        <option value="">All Alignments</option>
-                        <option value="hero" {{ request('alignment') == 'hero' ? 'selected' : '' }}>Hero</option>
-                        <option value="villain" {{ request('alignment') == 'villain' ? 'selected' : '' }}>Villain</option>
+                    <label for="element" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Element</label>
+                    <select name="element" id="element" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <option value="">All Elements</option>
+                        <option value="air" {{ request('element') == 'air' ? 'selected' : '' }}>Air</option>
+                        <option value="earth" {{ request('element') == 'earth' ? 'selected' : '' }}>Earth</option>
+                        <option value="fire" {{ request('element') == 'fire' ? 'selected' : '' }}>Fire</option>
+                        <option value="water" {{ request('element') == 'water' ? 'selected' : '' }}>Water</option>
                     </select>
                 </div>
                 <div class="flex-1">
@@ -126,7 +134,7 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">User</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Quiz</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Score</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Alignment</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Element</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                     </tr>
@@ -144,8 +152,17 @@
                             {{ $result->total_score }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $result->alignment === 'hero' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
-                                {{ ucfirst($result->alignment) }}
+                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                @if($result->element === 'air')
+                                    bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                                @elseif($result->element === 'fire')
+                                    bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                @elseif($result->element === 'water')
+                                    bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200
+                                @elseif($result->element === 'earth')
+                                    bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                @endif">
+                                {{ ucfirst($result->element) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
@@ -167,23 +184,25 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Alignment Distribution Chart
-            const alignmentCtx  function() {
-            // Alignment Distribution Chart
-            const alignmentCtx = document.getElementById('alignmentChart').getContext('2d');
-            new Chart(alignmentCtx, {
+            // Element Distribution Chart
+            const elementCtx = document.getElementById('elementChart').getContext('2d');
+            new Chart(elementCtx, {
                 type: 'pie',
                 data: {
-                    labels: ['Hero', 'Villain'],
+                    labels: ['Air', 'Earth', 'Fire', 'Water'],
                     datasets: [{
-                        data: [{{ $heroCount }}, {{ $villainCount }}],
+                        data: [{{ $airCount }}, {{ $earthCount }}, {{ $fireCount }}, {{ $waterCount }}],
                         backgroundColor: [
-                            'rgba(59, 130, 246, 0.8)',
-                            'rgba(239, 68, 68, 0.8)'
+                            'rgba(59, 130, 246, 0.8)', // Air - Blue
+                            'rgba(16, 185, 129, 0.8)', // Earth - Green
+                            'rgba(239, 68, 68, 0.8)',  // Fire - Red
+                            'rgba(6, 182, 212, 0.8)'   // Water - Cyan
                         ],
                         borderColor: [
                             'rgba(59, 130, 246, 1)',
-                            'rgba(239, 68, 68, 1)'
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(6, 182, 212, 1)'
                         ],
                         borderWidth: 1
                     }]
@@ -251,3 +270,4 @@
         });
     </script>
 @endsection
+

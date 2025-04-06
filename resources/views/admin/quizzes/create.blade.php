@@ -29,6 +29,19 @@
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="is_entrance_quiz" name="is_entrance_quiz"
+                            class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600">
+                        <label for="is_entrance_quiz" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">
+                            Entrance Exam
+                        </label>
+                    </div>
+                    @error('is_entrance_quiz')
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
 
             <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 text-right">

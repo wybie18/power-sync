@@ -22,27 +22,46 @@
 
                 <div class="border-t dark:border-gray-700 pt-6">
                     <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">Answers</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Add answers with scores. Positive scores tend
-                        toward "hero" alignment, negative scores toward "villain" alignment.</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Add answers with scores and elements. Each
+                        answer can be associated with an elemental power (air, fire, water, earth).</p>
 
                     <div id="answers-container" class="space-y-4">
                         <div class="answer-group border dark:border-gray-700 rounded-lg p-4">
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                <div class="md:col-span-3">
+                            <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                                <div class="md:col-span-4">
                                     <label for="answers[0][answer]"
                                         class="block text-sm font-medium text-gray-700 dark:text-gray-300">Answer
                                         Text</label>
-                                    <input type="text" name="answers[0][answer]"
+                                    <input type="text" name="answers[0][answer]" value="{{ old('answers.0.answer') }}"
                                         class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                                         required>
                                 </div>
-                                <div>
-                                    <label for="answers[0][score]"
-                                        class="block text-sm font-medium text-gray-700 dark:text-gray-300">Score</label>
-                                    <input type="number" name="answers[0][score]"
-                                        class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                        required>
-                                </div>
+                                @if (!$quiz->is_entrance_quiz)
+                                    <div>
+                                        <label for="answers[0][score]"
+                                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Score</label>
+                                        <input type="number" name="answers[0][score]" value="{{ old('answers.0.score') }}"
+                                            class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                            required>
+                                    </div>
+                                @endif
+                                @if ($quiz->is_entrance_quiz)
+                                    <div class="md:col-span-2">
+                                        <label for="answers[0][element]"
+                                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Element</label>
+                                        <select name="answers[0][element]"
+                                            class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                            required>
+                                            <option value="">Select Element</option>
+                                            @foreach (['air', 'fire', 'water', 'earth'] as $element)
+                                                <option value="{{ $element }}"
+                                                    {{ old('answers.0.element') == $element ? 'selected' : '' }}>
+                                                    {{ ucfirst($element) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -68,6 +87,8 @@
     </div>
 
     <script>
+        const isEntranceQuiz = @json($quiz->is_entrance_quiz); // ← this converts true/false to JS boolean
+
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('answers-container');
             const addButton = document.getElementById('add-answer');
@@ -77,25 +98,48 @@
                 const answerGroup = document.createElement('div');
                 answerGroup.className = 'answer-group border dark:border-gray-700 rounded-lg p-4';
 
-                answerGroup.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div class="md:col-span-3">
-                            <label for="answers[${answerCount}][answer]" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Answer Text</label>
-                            <input type="text" name="answers[${answerCount}][answer]" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
-                        </div>
-                        <div>
-                            <label for="answers[${answerCount}][score]" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Score</label>
-                            <input type="number" name="answers[${answerCount}][score]" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
-                        </div>
-                    </div>
-                    <button type="button" class="remove-answer mt-2 text-sm text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300">Remove</button>
-                `;
+                let html = `
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                <div class="md:col-span-4">
+                    <label for="answers[${answerCount}][answer]" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Answer Text</label>
+                    <input type="text" name="answers[${answerCount}][answer]" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                </div>
+        `;
 
+                if (!isEntranceQuiz) {
+                    html += `
+                <div>
+                    <label for="answers[${answerCount}][score]" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Score</label>
+                    <input type="number" name="answers[${answerCount}][score]" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                </div>
+            `;
+                }
+
+                if (isEntranceQuiz) {
+                    html += `
+                <div class="md:col-span-2">
+                    <label for="answers[${answerCount}][element]" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Element</label>
+                    <select name="answers[${answerCount}][element]" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                        <option value="">Select Element</option>
+                        <option value="air">Air</option>
+                        <option value="fire">Fire</option>
+                        <option value="water">Water</option>
+                        <option value="earth">Earth</option>
+                    </select>
+                </div>
+            `;
+                }
+
+                html += `
+            </div>
+            <button type="button" class="remove-answer mt-2 text-sm text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300">Remove</button>
+        `;
+
+                answerGroup.innerHTML = html;
                 container.appendChild(answerGroup);
                 answerCount++;
 
-                const removeButton = answerGroup.querySelector('.remove-answer');
-                removeButton.addEventListener('click', function() {
+                answerGroup.querySelector('.remove-answer').addEventListener('click', function() {
                     container.removeChild(answerGroup);
                 });
             });

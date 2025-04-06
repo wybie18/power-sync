@@ -13,11 +13,11 @@ class QuizController extends Controller
     {
         $search = $request->input('search');
 
-        $quizzes = Quiz::when($search, function ($query) use ($search) {
-            $query->where('title', 'like', "%{$search}%")
-                ->orWhere('description', 'like', "%{$search}%");
-        })
-            ->withCount('questions')
+        $quizzes = Quiz::withCount('questions')
+            ->when($search, function ($query) use ($search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            })
             ->latest()
             ->paginate(10);
 
@@ -38,13 +38,15 @@ class QuizController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'required|string',
+            'title'            => 'required|string|max:255',
+            'description'      => 'required|string',
         ]);
 
-        Quiz::create($validated);
+        $validated['is_entrance_quiz'] = $request->has('is_entrance_quiz') ? true : false;
 
-        return redirect()->route('admin.quizzes.index')
+        $quiz = Quiz::create($validated);
+
+        return redirect()->route('admin.quizzes.show', $quiz)
             ->with('success', 'Quiz created successfully');
     }
 
@@ -53,7 +55,7 @@ class QuizController extends Controller
      */
     public function show(Quiz $quiz)
     {
-        $quiz->load('questions.answers');
+        $quiz->load(['questions.answers', 'results']);
 
         return view('admin.quizzes.show', compact('quiz'));
     }
@@ -72,13 +74,15 @@ class QuizController extends Controller
     public function update(Request $request, Quiz $quiz)
     {
         $validated = $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'required|string',
+            'title'            => 'required|string|max:255',
+            'description'      => 'required|string',
         ]);
+
+        $validated['is_entrance_quiz'] = $request->has('is_entrance_quiz') ? true : false;
 
         $quiz->update($validated);
 
-        return redirect()->route('admin.quizzes.index')
+        return redirect()->route('admin.quizzes.show', $quiz)
             ->with('success', 'Quiz updated successfully');
     }
 

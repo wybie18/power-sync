@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
@@ -22,8 +21,9 @@ class AnswerController extends Controller
     public function store(Request $request, Question $question)
     {
         $validated = $request->validate([
-            'answer' => 'required|string|max:255',
-            'score' => 'required|integer',
+            'answer'  => 'required|string|max:255',
+            'score'   => 'required|integer',
+            'element' => 'sometimes|in:fire,water,air,earth',
         ]);
 
         $question->answers()->create($validated);
@@ -46,14 +46,15 @@ class AnswerController extends Controller
     public function update(Request $request, Answer $answer)
     {
         $validated = $request->validate([
-            'answer' => 'required|string|max:255',
-            'score' => 'required|integer',
+            'answer'  => 'required|string|max:255',
+            'score'   => 'required|integer',
+            'element' => 'sometimes|in:fire,water,air,earth',
         ]);
 
         $answer->update($validated);
 
         $question = $answer->question;
-        
+
         return redirect()->route('admin.quizzes.questions.index', $question->quiz_id)
             ->with('success', 'Answer updated successfully');
     }

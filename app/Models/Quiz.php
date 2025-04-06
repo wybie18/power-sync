@@ -8,6 +8,11 @@ class Quiz extends Model
     protected $fillable = [
         'title',
         'description',
+        'is_entrance_quiz',
+    ];
+
+    protected $casts = [
+        'is_entrance_quiz' => 'boolean',
     ];
 
     public function questions()

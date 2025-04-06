@@ -91,10 +91,11 @@ class QuestionController extends Controller
     public function store(Request $request, Quiz $quiz)
     {
         $validated = $request->validate([
-            'question'         => 'required|string|max:255',
-            'answers'          => 'required|array|min:2',
-            'answers.*.answer' => 'required|string|max:255',
-            'answers.*.score'  => 'required|integer',
+            'question'          => 'required|string|max:255',
+            'answers'           => 'required|array|min:2',
+            'answers.*.answer'  => 'required|string|max:255',
+            'answers.*.score'   => $quiz->is_entrance_quiz ? 'nullable|integer' : 'required|integer',
+            'answers.*.element' => $quiz->is_entrance_quiz ? 'required|in:fire,water,air,earth' : 'nullable|in:fire,water,air,earth',
         ]);
 
         $question = $quiz->questions()->create([
@@ -103,8 +104,9 @@ class QuestionController extends Controller
 
         foreach ($validated['answers'] as $answerData) {
             $question->answers()->create([
-                'answer' => $answerData['answer'],
-                'score'  => $answerData['score'],
+                'answer'  => $answerData['answer'],
+                'score'   => $quiz->is_entrance_quiz ? 1 : $answerData['score'],
+                'element' => $answerData['element'],
             ]);
         }
 

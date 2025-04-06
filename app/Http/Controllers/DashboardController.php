@@ -16,11 +16,17 @@ class DashboardController extends Controller
         $totalQuizzes = Quiz::count();
         $quizzesTaken = QuizResult::count();
 
-        $heroCount    = QuizResult::where('alignment', 'hero')->count();
-        $villainCount = QuizResult::where('alignment', 'villain')->count();
+        // Get counts for each element
+        $airCount    = QuizResult::where('element', 'air')->count();
+        $earthCount  = QuizResult::where('element', 'earth')->count();
+        $fireCount   = QuizResult::where('element', 'fire')->count();
+        $waterCount  = QuizResult::where('element', 'water')->count();
 
-        $heroPercentage    = $quizzesTaken > 0 ? round(($heroCount / $quizzesTaken) * 100) : 0;
-        $villainPercentage = $quizzesTaken > 0 ? round(($villainCount / $quizzesTaken) * 100) : 0;
+        // Calculate percentages for each element
+        $airPercentage    = $quizzesTaken > 0 ? round(($airCount / $quizzesTaken) * 100) : 0;
+        $earthPercentage  = $quizzesTaken > 0 ? round(($earthCount / $quizzesTaken) * 100) : 0;
+        $firePercentage   = $quizzesTaken > 0 ? round(($fireCount / $quizzesTaken) * 100) : 0;
+        $waterPercentage  = $quizzesTaken > 0 ? round(($waterCount / $quizzesTaken) * 100) : 0;
 
         $recentResults = QuizResult::with(['user', 'quiz'])
             ->latest()
@@ -35,8 +41,14 @@ class DashboardController extends Controller
             'totalUsers',
             'totalQuizzes',
             'quizzesTaken',
-            'heroPercentage',
-            'villainPercentage',
+            'airCount',
+            'earthCount',
+            'fireCount',
+            'waterCount',
+            'airPercentage',
+            'earthPercentage',
+            'firePercentage',
+            'waterPercentage',
             'recentResults',
             'newUsers'
         ));

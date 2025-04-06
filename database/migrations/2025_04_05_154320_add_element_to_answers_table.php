@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quizzes', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->boolean('is_entrance_quiz')->default(false);
-            $table->timestamps();
+        Schema::table('answers', function (Blueprint $table) {
+            $table->enum('element', ['air', 'earth', 'fire', 'water'])->nullable()->after('answer');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quizzes');
+        Schema::table('answers', function (Blueprint $table) {
+            //
+        });
     }
 };

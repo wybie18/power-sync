@@ -45,8 +45,7 @@
                     <div class="border-t dark:border-gray-700 pt-6">
                         <h4 class="text-md font-medium text-gray-800 dark:text-white mb-4">Answers</h4>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                            Set scores for each answer. Positive scores (e.g., 1, 2, 3) indicate hero alignment, 
-                            negative scores (e.g., -1, -2, -3) indicate villain alignment.
+                            Set scores and elements for each answer. Positive scores increase the user's elemental power, while negative scores decrease it. 
                         </p>
 
                         <div class="space-y-4">

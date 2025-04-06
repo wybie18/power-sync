@@ -6,13 +6,14 @@
             <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">Questions for "{{ $quiz->title }}"</h1>
             <p class="text-gray-600 dark:text-gray-400">Manage questions and answers</p>
         </div>
-        <div class="space-x-2">
-            <button
-                x-data=""
-                x-on:click.prevent="$dispatch('open-modal', 'generate-questions')"
-                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                Generate
-            </button>
+        <div class="flex items-center space-x-2">
+            <div @class(['hidden' => $quiz->is_entrance_quiz])>
+                <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'generate-questions')"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    Generate
+                </button>
+            </div>
+
             <a href="{{ route('admin.quizzes.questions.create', $quiz) }}"
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                 Add Question
@@ -27,24 +28,30 @@
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Generate Questions</h3>
                 <button x-on:click="$dispatch('close')" class="text-gray-400 hover:text-gray-500 focus:outline-none">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
                     </svg>
                 </button>
             </div>
             <form action="{{ route('admin.quizzes.questions.generate', $quiz) }}" method="GET">
                 <div class="space-y-4">
                     <div>
-                        <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-white">Number of Questions</label>
-                        <select id="amount" name="amount" class="mt-1 block w-full pl-3 pr-10 py-2 text-base dark:text-gray-300 border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                            @foreach([5, 10, 15, 20] as $value)
-                                <option value="{{ $value }}" {{ $value == 10 ? 'selected' : '' }}>{{ $value }}</option>
+                        <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-white">Number of
+                            Questions</label>
+                        <select id="amount" name="amount"
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base dark:text-gray-300 border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                            @foreach ([5, 10, 15, 20] as $value)
+                                <option value="{{ $value }}" {{ $value == 10 ? 'selected' : '' }}>{{ $value }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
-                    
+
                     <div>
-                        <label for="category" class="block text-sm font-medium text-gray-700 dark:text-white">Category</label>
-                        <select id="category" name="category" class="mt-1 block w-full pl-3 pr-10 py-2 dark:text-gray-300 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                        <label for="category"
+                            class="block text-sm font-medium text-gray-700 dark:text-white">Category</label>
+                        <select id="category" name="category"
+                            class="mt-1 block w-full pl-3 pr-10 py-2 dark:text-gray-300 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
                             <option value="9">General Knowledge</option>
                             <option value="10">Entertainment: Books</option>
                             <option value="11">Entertainment: Film</option>
@@ -72,12 +79,14 @@
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="mt-6 flex justify-end space-x-3">
-                    <button type="button" x-on:click="$dispatch('close')" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <button type="button" x-on:click="$dispatch('close')"
+                        class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         Cancel
                     </button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         Generate
                     </button>
                 </div>
@@ -117,9 +126,22 @@
                             @foreach ($question->answers as $answer)
                                 <div class="flex items-center justify-between p-4 border rounded-lg dark:border-gray-700">
                                     <div class="flex items-center">
-                                        <span class="text-gray-800 dark:text-gray-200">{{ $answer->answer }}</span>
+                                        <span class="text-gray-800 dark:text-gray-200 mr-4">{{ $answer->answer }}</span>
+                                        @if ($answer->element)
+                                            <span
+                                                class="px-2 py-1 text-xs font-semibold rounded-full 
+                                                    @if ($answer->element === 'air') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                                                    @elseif($answer->element === 'fire')
+                                                        bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                                    @elseif($answer->element === 'water')
+                                                        bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200
+                                                    @elseif($answer->element === 'earth')
+                                                        bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 @endif">
+                                                {{ ucfirst($answer->element) }}
+                                            </span>
+                                        @endif
                                         <span
-                                            class="ml-4 px-2 py-1 text-xs font-semibold rounded-full {{ $answer->score > 0 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
+                                            class="ml-2 px-2 py-1 text-xs font-semibold rounded-full {{ $answer->score > 0 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
                                             Score: {{ $answer->score }}
                                         </span>
                                     </div>

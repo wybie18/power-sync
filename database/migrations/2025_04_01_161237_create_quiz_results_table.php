@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('quiz_id')->constrained('quizzes')->cascadeOnDelete();
             $table->integer('total_score');
-            $table->enum('alignment', ['hero', 'villain']);
+            $table->enum('element', ['air', 'earth', 'fire', 'water'])->nullable();
             $table->timestamps();
         });
     }

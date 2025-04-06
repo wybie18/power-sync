@@ -14,15 +14,15 @@ class ResultController extends Controller
     public function index(Request $request)
     {
         $quizId     = $request->input('quiz_id');
-        $alignment  = $request->input('alignment');
+        $element    = $request->input('element');
         $userSearch = $request->input('user');
 
         $results = QuizResult::with(['user', 'quiz'])
             ->when($quizId, function ($query) use ($quizId) {
                 $query->where('quiz_id', $quizId);
             })
-            ->when($alignment, function ($query) use ($alignment) {
-                $query->where('alignment', $alignment);
+            ->when($element, function ($query) use ($element) {
+                $query->where('element', $element);
             })
             ->when($userSearch, function ($query) use ($userSearch) {
                 $query->whereHas('user', function ($q) use ($userSearch) {
@@ -37,11 +37,12 @@ class ResultController extends Controller
 
         $totalResults = QuizResult::count();
         $averageScore = QuizResult::avg('total_score');
-        $heroCount    = QuizResult::where('alignment', 'hero')->count();
-        $villainCount = QuizResult::where('alignment', 'villain')->count();
-
-        $heroPercentage    = $totalResults > 0 ? round(($heroCount / $totalResults) * 100) : 0;
-        $villainPercentage = $totalResults > 0 ? round(($villainCount / $totalResults) * 100) : 0;
+        
+        // Get counts for each element
+        $airCount    = QuizResult::where('element', 'air')->count();
+        $earthCount  = QuizResult::where('element', 'earth')->count();
+        $fireCount   = QuizResult::where('element', 'fire')->count();
+        $waterCount  = QuizResult::where('element', 'water')->count();
 
         // Data for quiz popularity chart
         $quizPopularity = QuizResult::select('quiz_id', DB::raw('count(*) as total'))
@@ -56,15 +57,23 @@ class ResultController extends Controller
 
         $quizPopularityData = $quizPopularity->pluck('total');
 
+        // Element distribution data for charts
+        $elementData = [
+            'air' => $airCount,
+            'earth' => $earthCount,
+            'fire' => $fireCount,
+            'water' => $waterCount
+        ];
+
         return view('admin.results.index', compact(
             'results',
             'quizzes',
             'totalResults',
             'averageScore',
-            'heroCount',
-            'villainCount',
-            'heroPercentage',
-            'villainPercentage',
+            'airCount',
+            'earthCount',
+            'fireCount',
+            'waterCount',
             'quizPopularityLabels',
             'quizPopularityData'
         ));

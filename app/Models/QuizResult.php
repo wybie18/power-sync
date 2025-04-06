@@ -9,7 +9,8 @@ class QuizResult extends Model
         'user_id',
         'quiz_id',
         'total_score',
-        'alignment',
+        'max_possible_score',
+        'element',
     ];
 
     public function user()
@@ -20,5 +21,10 @@ class QuizResult extends Model
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(ResultAnswer::class);
     }
 }

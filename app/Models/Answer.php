@@ -9,6 +9,7 @@ class Answer extends Model
         'question_id',
         'answer',
         'score',
+        'element'
     ];
 
     public function question()
