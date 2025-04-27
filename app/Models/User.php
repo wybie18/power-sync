@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(QuizResult::class);
     }
+
+    public function typing_tests()
+    {
+        return $this->hasMany(TypingTest::class);
+    }
 }

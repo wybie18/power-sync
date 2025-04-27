@@ -84,37 +84,14 @@
                     <div class="space-y-4">
                         @foreach ($recentResults as $result)
                             <div class="border-b dark:border-gray-700 pb-4 last:border-b-0 last:pb-0">
-                                <h3 class="font-medium text-gray-900 dark:text-white">{{ $result->quiz->title }}</h3>
                                 <div class="flex justify-between mt-1">
+                                    <h3 class="font-medium text-gray-900 dark:text-white">{{ $result->quiz->title }}</h3>
                                     <span
                                         class="text-sm text-gray-500 dark:text-gray-400">{{ $result->created_at->format('M d, Y') }}</span>
-                                    <span
-                                        class="text-sm font-medium px-2 py-1 rounded-full
-                                        @if ($result->element === 'air') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
-                                        @elseif($result->element === 'fire')
-                                            bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
-                                        @elseif($result->element === 'water')
-                                            bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200
-                                        @elseif($result->element === 'earth')
-                                            bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                                        @else
-                                            bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 @endif">
-                                        {{ ucfirst($result->element ?? 'Unknown') }}
-                                    </span>
                                 </div>
                                 <div class="mt-2">
                                     <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                                        <div class="
-                                            @if ($result->element === 'air') bg-blue-600
-                                            @elseif($result->element === 'fire')
-                                                bg-red-600
-                                            @elseif($result->element === 'water')
-                                                bg-cyan-600
-                                            @elseif($result->element === 'earth')
-                                                bg-green-600
-                                            @else
-                                                bg-blue-600 @endif
-                                            h-2.5 rounded-full"
+                                        <div class="bg-blue-600 h-2.5 rounded-full"
                                             style="width: {{ ($result->total_score / $result->max_possible_score) * 100 }}%">
                                         </div>
                                     </div>
@@ -156,6 +133,10 @@
                     <a href="{{ route('user.quizzes.index') }}"
                         class="block w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center">
                         Browse All Quizzes
+                    </a>
+                    <a href="{{ route('user.typing.test.index') }}"
+                        class="block w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center">
+                        Take Typing Test
                     </a>
                     <a href="{{ route('user.leaderboard') }}"
                         class="block w-full px-4 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 text-center">
@@ -276,9 +257,8 @@
                                 $level = floor(sqrt($exp / 100)) + 1;
                                 $nextLevel = $level + 1;
                                 $expForCurrentLevel = ($level - 1) * ($level - 1) * 100;
-                                $expForNextLevel = $nextLevel * $nextLevel * 100;
-                                $expProgress =
-                                    (($exp - $expForCurrentLevel) / ($expForNextLevel - $expForCurrentLevel)) * 100;
+                                $expForNextLevel = $level * $level * 100;
+                                $expProgress = ($exp - $expForCurrentLevel) / ($expForNextLevel - $expForCurrentLevel) * 100;
                             @endphp
 
                             <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">

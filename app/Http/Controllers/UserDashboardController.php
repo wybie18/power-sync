@@ -16,6 +16,9 @@ class UserDashboardController extends Controller
         // Get recent results
         $recentResults = QuizResult::with('quiz')
             ->where('user_id', $user->id)
+            ->whereHas('quiz', function ($query) {
+                $query->where('is_entrance_quiz', false);
+            })
             ->orderBy('created_at', 'desc')
             ->take(3)
             ->get();

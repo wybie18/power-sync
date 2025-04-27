@@ -14,7 +14,8 @@ class UserQuizController extends Controller
     public function index(Request $request)
     {
         $query = Quiz::withCount('questions')
-            ->withCount('results');
+            ->withCount('results')
+            ->where('is_entrance_quiz', false);
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -38,7 +39,7 @@ class UserQuizController extends Controller
 
     public function random()
     {
-        $quiz = Quiz::inRandomOrder()->first();
+        $quiz = Quiz::where('is_entrance_quiz', false)->inRandomOrder()->first();
 
         if (! $quiz) {
             return redirect()->route('user.quizzes.index')
@@ -111,7 +112,7 @@ class UserQuizController extends Controller
             $dominantElement = array_key_first($elements);
 
             $quizResult->update([
-                'total_score'        => $totalScore,
+                'total_score'        => max($totalScore, 0),
                 'max_possible_score' => $maxPossibleScore,
                 'element'            => $dominantElement,
             ]);

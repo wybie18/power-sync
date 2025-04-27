@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ResultController;
+use App\Http\Controllers\TypingTestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\UserProfileController;
@@ -74,6 +75,9 @@ Route::middleware(['auth', 'role:user', 'power'])->prefix('user')->name('user.')
     
     // Leaderboard
     Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');
+
+    Route::get('/typing/test', [TypingTestController::class, 'index'])->name('typing.test.index');
+    Route::post('/typing/test', [TypingTestController::class, 'store'])->name('typing.test.store');
 });
 
 Route::middleware(['auth', 'role:user', 'no_power'])->prefix('user')->name('user.')->group(function () {

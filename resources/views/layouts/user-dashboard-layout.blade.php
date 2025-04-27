@@ -58,6 +58,16 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('user.typing.test.index') }}"
+                            class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('user.typing.test.*') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                            Typing Test
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('user.quizzes.index') }}"
                             class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('user.quizzes.*') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
