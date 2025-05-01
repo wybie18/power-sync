@@ -61,18 +61,6 @@
                         <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Attempts</h3>
                         <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ $quiz->results->count() ?? 0 }}</p>
                     </div>
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Hero Alignments</h3>
-                        <p class="mt-1 text-sm text-gray-900 dark:text-white">
-                            {{ $quiz->results->where('alignment', 'hero')->count() ?? 0 }}
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Villain Alignments</h3>
-                        <p class="mt-1 text-sm text-gray-900 dark:text-white">
-                            {{ $quiz->results->where('alignment', 'villain')->count() ?? 0 }}
-                        </p>
-                    </div>
                 </div>
             </div>
         </div>

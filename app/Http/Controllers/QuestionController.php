@@ -106,7 +106,7 @@ class QuestionController extends Controller
             $question->answers()->create([
                 'answer'  => $answerData['answer'],
                 'score'   => $quiz->is_entrance_quiz ? 1 : $answerData['score'],
-                'element' => $answerData['element'],
+                'element' => $quiz->is_entrance_quiz ? $answerData['element'] ?? null : null,
             ]);
         }
 
