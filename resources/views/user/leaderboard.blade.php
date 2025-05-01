@@ -94,6 +94,11 @@
                     class="py-4 px-6 border-b-2 font-medium text-sm focus:outline-none">
                     Earth
                 </button>
+                <button @click="activeTab = 'typing'"
+                    :class="{ 'border-purple-500 text-purple-600 dark:text-purple-400': activeTab === 'typing', 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600': activeTab !== 'typing' }"
+                    class="py-4 px-6 border-b-2 font-medium text-sm focus:outline-none">
+                    Typing
+                </button>
             </nav>
         </div>
 
@@ -117,6 +122,9 @@
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                     Power</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Best Typing</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                     Experience</th>
@@ -154,6 +162,13 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        @if ($user->best_wpm)
+                                            {{ $user->best_wpm }} WPM
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                         {{ $user->exp ?? 0 }} XP
                                     </td>
                                 </tr>
@@ -185,6 +200,12 @@
                                     Quizzes</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Best Typing</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Avg Typing</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                     Experience</th>
                             </tr>
                         </thead>
@@ -203,6 +224,20 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                         {{ $user->quizzes_taken }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        @if ($user->best_wpm)
+                                            {{ $user->best_wpm }} WPM
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        @if ($user->avg_wpm)
+                                            {{ round($user->avg_wpm, 1) }} WPM
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                         {{ $user->exp ?? 0 }} XP
@@ -236,6 +271,12 @@
                                     Quizzes</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Best Typing</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Avg Typing</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                     Experience</th>
                             </tr>
                         </thead>
@@ -254,6 +295,20 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                         {{ $user->quizzes_taken }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        @if ($user->best_wpm)
+                                            {{ $user->best_wpm }} WPM
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        @if ($user->avg_wpm)
+                                            {{ round($user->avg_wpm, 1) }} WPM
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                         {{ $user->exp ?? 0 }} XP
@@ -287,6 +342,12 @@
                                     Quizzes</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Best Typing</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Avg Typing</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                     Experience</th>
                             </tr>
                         </thead>
@@ -305,6 +366,20 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                         {{ $user->quizzes_taken }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        @if ($user->best_wpm)
+                                            {{ $user->best_wpm }} WPM
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        @if ($user->avg_wpm)
+                                            {{ round($user->avg_wpm, 1) }} WPM
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                         {{ $user->exp ?? 0 }} XP
@@ -338,11 +413,17 @@
                                     Quizzes</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Best Typing</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Avg Typing</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                     Experience</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                            @foreach ($earthUsers as $index => $user)
+                            @foreach ($waterUsers as $index => $user)
                                 <tr class="{{ $user->id === Auth::id() ? 'bg-green-50 dark:bg-green-900/20' : '' }}">
                                     <td
                                         class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
@@ -358,6 +439,20 @@
                                         {{ $user->quizzes_taken }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        @if ($user->best_wpm)
+                                            {{ $user->best_wpm }} WPM
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        @if ($user->avg_wpm)
+                                            {{ round($user->avg_wpm, 1) }} WPM
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                         {{ $user->exp ?? 0 }} XP
                                     </td>
                                 </tr>
@@ -367,6 +462,81 @@
                 </div>
             @else
                 <p class="text-gray-500 dark:text-gray-400 text-center py-4">No Earth Benders found.</p>
+            @endif
+        </div>
+        <!-- Typing Leaders Tab -->
+        <div x-show="activeTab === 'typing'" class="p-6">
+            <h3 class="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-4">Top Typists</h3>
+            @if (count($typingLeaders) > 0)
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Rank</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    User</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Power</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Best Typing</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Average Typing</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Tests Taken</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach ($typingLeaders as $index => $user)
+                                <tr class="{{ $user->id === Auth::id() ? 'bg-purple-50 dark:bg-purple-900/20' : '' }}">
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                        {{ $index + 1 }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                                        {{ $user->name }}
+                                        @if ($user->id === Auth::id())
+                                            <span class="ml-2 text-xs text-purple-600 dark:text-purple-400">(You)</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                    @if ($user->power === 'air') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                                    @elseif($user->power === 'fire')
+                                        bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                    @elseif($user->power === 'water')
+                                        bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200
+                                    @elseif($user->power === 'earth')
+                                        bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                    @else
+                                        bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 @endif">
+                                            {{ ucfirst($user->power ?? 'Unknown') }}
+                                        </span>
+                                    </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white font-medium">
+                                        {{ $user->best_wpm }} WPM
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        {{ round($user->avg_wpm, 1) }} WPM
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        {{ $user->typing_tests_taken }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <p class="text-gray-500 dark:text-gray-400 text-center py-4">No typing test data available.</p>
             @endif
         </div>
     </div>

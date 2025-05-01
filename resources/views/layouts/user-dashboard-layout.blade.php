@@ -24,7 +24,8 @@
             id="sidebar" x-data="{ open: true }" :class="{ 'translate-x-0': open, '-translate-x-full': !open }">
             <div class="flex items-center justify-between h-16 px-4 border-b dark:border-gray-700">
                 <div class="flex items-center">
-                    <span class="text-xl font-bold text-gray-800 dark:text-white">PowerSync</span>
+                    <x-application-logo class="w-10 h-10 fill-current text-blue-600" />
+                    <span class="text-xl font-bold text-blue-600 dark:text-blue-400">PowerSync</span>
                 </div>
                 <button @click="open = !open" class="md:hidden">
                     <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor"

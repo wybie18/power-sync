@@ -62,7 +62,7 @@
                                     </div>
                                     <div>
                                         <label for="questions[{{ $index }}][answers][0][score]" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Score</label>
-                                        <input type="number" name="questions[{{ $index }}][answers][0][score]" value="2" 
+                                        <input type="number" name="questions[{{ $index }}][answers][0][score]" value="10" 
                                             class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                                         </div>
                                         <div>
                                             <label for="questions[{{ $index }}][answers][{{ $answerIndex + 1 }}][score]" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Score</label>
-                                            <input type="number" name="questions[{{ $index }}][answers][{{ $answerIndex + 1 }}][score]" value="-1" 
+                                            <input type="number" name="questions[{{ $index }}][answers][{{ $answerIndex + 1 }}][score]" value="0" 
                                                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
                                         </div>
                                     </div>

@@ -153,16 +153,16 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                @if($result->element === 'air')
+                                @if($result->element === 'air' || $result->user->power == 'air')
                                     bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
-                                @elseif($result->element === 'fire')
+                                @elseif($result->element === 'fire' || $result->user->power == 'fire')
                                     bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
-                                @elseif($result->element === 'water')
+                                @elseif($result->element === 'water' || $result->user->power == 'water')
                                     bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200
-                                @elseif($result->element === 'earth')
+                                @elseif($result->element === 'earth' || $result->user->power == 'earth')
                                     bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
                                 @endif">
-                                {{ ucfirst($result->element) }}
+                                {{ ucfirst($result->element ? $result->element : $result->user->power) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">

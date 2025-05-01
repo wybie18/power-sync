@@ -75,6 +75,10 @@ class UserQuizController extends Controller
         DB::beginTransaction();
 
         try {
+            $hasPreviousAttempt = QuizResult::where('user_id', $user->id)
+                ->where('quiz_id', $quiz->id)
+                ->exists();
+
             $quizResult = QuizResult::create([
                 'user_id'            => $user->id,
                 'quiz_id'            => $quiz->id,
@@ -91,7 +95,7 @@ class UserQuizController extends Controller
                     throw new \Exception('Invalid answer for question.');
                 }
 
-                if($answer->element){
+                if ($answer->element) {
                     $elements[$answer->element] += $answer->score;
                 }
                 $totalScore += $answer->score;
@@ -114,13 +118,15 @@ class UserQuizController extends Controller
             $quizResult->update([
                 'total_score'        => max($totalScore, 0),
                 'max_possible_score' => $maxPossibleScore,
-                'element'            => $dominantElement,
+                'element'            => $elements[$dominantElement] == 0 ? null : $dominantElement,
             ]);
 
-            $user->increment('exp', $totalScore);
+            if (!$hasPreviousAttempt) {
+                $user->increment('exp', $totalScore);
 
-            if ($quiz->is_entrance_quiz && empty($user->power)) {
-                $user->update(['power' => $dominantElement]);
+                if ($quiz->is_entrance_quiz && empty($user->power)) {
+                    $user->update(['power' => $dominantElement]);
+                }
             }
 
             DB::commit();
